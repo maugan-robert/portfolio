@@ -32,6 +32,21 @@ $the_query = new WP_Query($args);
 // Vérifier s'il y a des résultats
 if ($the_query->have_posts()) :
 ?>
+<?php
+// Démarrer la session
+session_start();
+
+// Vérifier si le formulaire a été envoyé
+if (isset($_SESSION['contact_form_sent']) && $_SESSION['contact_form_sent']) {
+    echo '<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            alert("Votre message a bien été envoyé. Merci de nous avoir contactés !");
+        });
+    </script>';
+    // Réinitialiser la variable pour éviter le pop-up à nouveau
+    unset($_SESSION['contact_form_sent']);
+}
+?>
 <div class="intro">
   <p class="intro-text">
     Bienvenue sur mon portfolio ! Moi, c’est Maugan Robert, 

@@ -31,22 +31,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <p class="txt-contact"><strong>N'hésitez pas à me laisser un message pour toute demande ou autre sujet.</strong><br>
            Je suis actuellement disponible pour un stage de fin mars à début juin, ainsi que pour une alternance à partir de septembre 2025. Si vous avez apprécié mon travail, vos retours sont également les bienvenus et seront grandement appréciés !</p>
         
-           <div class="contact">
-        <!-- Formulaire de contact -->
-        <form method="POST" action="">
-            <label for="mail">Mail</label>
-            <input type="email" id="mail" name="mail" placeholder="Votre adresse mail..." required>
-            
-            <label for="objet">Objet</label>
-            <input type="text" id="objet" name="objet" placeholder="Le sujet de votre message..." required>
-            
-            <label for="message">Message</label>
-            <textarea id="message" name="message" rows="6" placeholder="Écrivez votre message..." required></textarea>
-            <div  class="button-contact">
-            <button type="submit">ENVOYER</button>
-            </div>
+           <section id="contact" class="contact-section">
+  <div class="container">
+    <div class="contact-content">
+      <div class="formulaire">
+        <form action="<?php echo esc_url(admin_url('admin-post.php')); ?>" method="POST">
+          <input type="hidden" name="action" value="submit_contact_form"> <!-- Action WordPress -->
+
+          
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="Votre email..." required>
+
+          <label for="nom">Objet</label>
+          <input type="text" id="objet" name="objet" placeholder="Le sujet de votre message..." required>
+
+          <label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="Votre message..." rows="5" required></textarea>
+    <div class="button-contact">
+          <button type="submit">ENVOYER</button>
+    </div>
         </form>
-        </div>
+      </div>
+    </div>
+  </div>
+</section>
     </div>
 </body>
 </html>

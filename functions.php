@@ -72,7 +72,35 @@ function ajouter_favicon() {
 }
 add_action('wp_head', 'ajouter_favicon');
 
-  function enqueue_custom_scripts() {
-    wp_enqueue_script('custom-script', get_template_directory_uri() . '/script.js', array('jquery'), null, true);
-  }
-  add_action('wp_enqueue_scripts', 'enqueue_custom_scripts');
+function handle_contact_form_submission() {
+    if (isset($_POST['email']) && isset($_POST['objet']) && isset($_POST['message'])) {
+        $email = sanitize_email($_POST['email']);
+        $objet = sanitize_text_field($_POST['objet']);
+        $message = sanitize_textarea_field($_POST['message']);
+
+        $to = 'robertmaugan@gmail.com';
+        $subject = 'Nouveau message : ' . $objet;
+        $headers = array('Content-Type: text/html; charset=UTF-8');
+
+        $email_message = "
+            <h3>Message reçu :</h3>
+            <p><strong>Email :</strong> $email</p>
+            <p><strong>Objet :</strong> $objet</p>
+            <p><strong>Message :</strong></p>
+            <p>$message</p>
+        ";
+
+        wp_mail($to, $subject, $email_message, $headers);
+
+        // Définir une variable de session pour signaler que le message a été envoyé
+        session_start();
+        $_SESSION['contact_form_sent'] = true;
+
+        // Redirection vers la page d'accueil
+        wp_redirect(home_url('/'));
+        exit;
+    }
+}
+
+add_action('admin_post_submit_contact_form', 'handle_contact_form_submission');
+add_action('admin_post_nopriv_submit_contact_form', 'handle_contact_form_submission');
